@@ -17,7 +17,7 @@ const project = new vercel.Project("adora-pulumi-vercel", {
         repo: repoName,
         type: repoType
     },
-    rootDirectory: "src"
+    rootDirectory: "public"
 },
 {
     provider: provider
