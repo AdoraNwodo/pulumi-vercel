@@ -10,8 +10,8 @@ const provider = new vercel.Provider("vercel-provider", {
     apiToken: token
 });
 
-const project = new vercel.Project("pulumi-vercel", {
-    name: "pulumi-vercel",
+const project = new vercel.Project("adora-pulumi-vercel", {
+    name: "adora-pulumi-vercel",
     framework: "create-react-app",
     gitRepository: {
         repo: repoName,
