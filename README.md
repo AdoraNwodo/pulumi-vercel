@@ -1,70 +1,106 @@
-# Getting Started with Create React App
+# React App Deployment to Vercel with Pulumi
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This GitHub repository contains a sample React application and Pulumi TypeScript code for deploying the app to Vercel. The project is organized into two main directories:
 
-## Available Scripts
+1. `./frontend`: This directory contains the source code for your React application. You can develop and test your app in this folder.
 
-In the project directory, you can run:
+2. `./infra`: The `infra` directory contains the Pulumi TypeScript code for infrastructure as code (IaC). It's responsible for deploying your React app to Vercel using Pulumi.
 
-### `npm start`
+## Table of Contents
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- [Getting Started](#getting-started)
+  - [Cloning the Repository](#cloning-the-repository)
+  - [Running the React App Locally](#running-the-react-app-locally)
+  - [Deploying the React App to Vercel with Pulumi](#deploying-the-react-app-to-vercel-with-pulumi)
+- [Project Structure](#project-structure)
+- [Additional Notes](#additional-notes)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Getting Started
 
-### `npm test`
+To get started, follow these steps:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Cloning the Repository
 
-### `npm run build`
+1. Clone this GitHub repository to your local machine:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+   ```bash
+   git clone https://github.com/AdoraNwodo/pulumi-vercel.git
+   ```
+2. Navigate to the project directory:
+    ```bash
+    cd pulumi-vercel
+    ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Running the React App Locally
+1.  Navigate to the `./frontend` directory:
+```bash
+cd frontend
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2. Install the necessary dependencies:
+```bash
+npm install
+```
 
-### `npm run eject`
+3. Start the development server:
+```bash
+npm start
+```
+This will launch your React app locally, and you can access it in your web browser at http://localhost:3000.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Deploying the React App to Vercel with Pulumi
+1. Navigate to the `./infra` directory:
+```bash
+cd infra
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+2. Install the required Pulumi packages:
+```bash
+npm install
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+3. Login to Pulumi Cloud and initialize stack
+Next, let’s setup our state and secrets store in Pulumi Cloud.
+```bash
+# You can store Pulumi state in multiple ways, here we use Pulumi Cloud
+# Other state backends include Azure storage, Amazon S3, local file, and more
+pulumi login 
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+# Initialize your stack
+# Here we name the stack "dev"
+pulumi stack init --stack dev
+```
 
-## Learn More
+4. Configure deployment credentials
+Before the deployment, you will need to set the config values for your Vercel token (you should get this from your Vercel account), the repository name, and the repository type. The Vercel token is supposed to be set as a secret. If you open the Pulumi.${stackName}.yaml file, you can see the encrypted secret in this plain text YAML configuration.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+# The name of the git repository. It should have this format {account-name}/{repository-name}
+pulumi config set repoName <repo_name>
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+# The git provider of the repository. Must be either `github`, `gitlab`, or `bitbucket`.
+pulumi config set repoType <github|gitlab|bitbucket>
 
-### Code Splitting
+# Configure vercel token as secret
+pulumi config set --secret vercelToken <vcl_token>
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+5. Deploy to Vercel
+Now, you’re set up to deploy your React app to Vercel.
+```bash
+# Finally, run `pulumi up` to deploy!
+pulumi up
+```
 
-### Analyzing the Bundle Size
+### Project Structure
+The project is organized as follows:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- `/frontend` - React application source code.
+- `/infra` - Pulumi TypeScript code for deploying the React app to Vercel.
 
-### Making a Progressive Web App
+### Additional Notes
+- Make sure you have Node.js and npm installed for both the React app and Pulumi.
+- Configure your Vercel credentials in your Pulumi project to enable deployment to Vercel.
+- Customize the React app in the `./frontend` folder to meet your project requirements.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Happy coding!
