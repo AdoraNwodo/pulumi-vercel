@@ -1,0 +1,5 @@
+config:
+  vercel-infra:repoName: pulumi-vercel
+  vercel-infra:repoType: github
+  vercel-infra:vercelToken:
+    secure: AAABANLmjiaNnFQieWOB+FJt7VGEBWbEmR3hyTfMzaBm8t8RrsEdcfth5DjSjRpSSmF65lYpajc=

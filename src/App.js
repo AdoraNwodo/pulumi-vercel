@@ -2,21 +2,23 @@ import logo from './logo.svg';
 import './App.css';
 
 function App() {
+  const sayHello = () => {
+    alert("Hello, welcome to my app!");
+  }
+
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Hello! Welcome to a sample React app we would deploy to Vercel
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+        <button
+          onClick={sayHello}
+          className="App-button"
         >
-          Learn React
-        </a>
+          What does this button do?
+        </button>
       </header>
     </div>
   );
